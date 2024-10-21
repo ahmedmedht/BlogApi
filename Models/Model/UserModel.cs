@@ -18,7 +18,7 @@ namespace Models.Model
 
         public string PasswordHash { get; set; }
 
-        public Guid ImageId { get; set; }
+        public Guid? ImageId { get; set; }
         public ImageModel UserImage { get; set; }
 
         public ICollection<PostModel> Posts { get; set; } // Posts authored by the user

@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi", "BlogApi\BlogApi.
 		{47E6D166-18F2-471F-B0FC-D53A11ABEC4C} = {47E6D166-18F2-471F-B0FC-D53A11ABEC4C}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bussiness", "BussinessTier\Bussiness.csproj", "{47E6D166-18F2-471F-B0FC-D53A11ABEC4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "BussinessTier\Business.csproj", "{47E6D166-18F2-471F-B0FC-D53A11ABEC4C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FA39029D-5A6A-427E-A77A-6A0B472F3AB1} = {FA39029D-5A6A-427E-A77A-6A0B472F3AB1}
 	EndProjectSection
@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\Da
 		{0B8E3F72-0AE6-451A-A340-C51859622A05} = {0B8E3F72-0AE6-451A-A340-C51859622A05}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{0B8E3F72-0AE6-451A-A340-C51859622A05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{0B8E3F72-0AE6-451A-A340-C51859622A05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
