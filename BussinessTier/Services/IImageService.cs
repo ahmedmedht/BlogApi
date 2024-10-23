@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Models.Dto;
 using Models.Model;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Business.Services
     {
         Task<IEnumerable<ImageModel>> GetAllImagesAsync();
         Task<ImageModel> GetImageByIdAsync(Guid id);
-        Task<ImageModel> UploadImageAsync(IFormFile file);
+        Task<ImageDTO> UploadImageAsync(IFormFile file);
         Task DeleteImageAsync(Guid id);
     }
 }

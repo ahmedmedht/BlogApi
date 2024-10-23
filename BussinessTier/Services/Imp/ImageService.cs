@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models.Dto;
 
 namespace Business.Services.Imp
 {
@@ -29,47 +30,52 @@ namespace Business.Services.Imp
             return await _imageRepository.GetByIdAsync(id);
         }
 
-        public async Task<ImageModel> UploadImageAsync(IFormFile file)
+        public async Task<ImageDTO> UploadImageAsync(IFormFile file)
         {
-            // Generate a new GUID for the image
             var imageGuid = Guid.NewGuid();
             var extension = Path.GetExtension(file.FileName);
             var filePath = Path.Combine(_imageFolderPath, $"{imageGuid}{extension}");
 
-            // Save the file to the file system
+            // Save the image to the file system
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            // Create a new ImageModel
+            // Create the image entity
             var image = new ImageModel
             {
                 Id = imageGuid,
                 Path = filePath,
                 ImageType = extension,
-    //            UploadedAt = DateTime.UtcNow
             };
 
-            // Save image metadata to the database
             await _imageRepository.AddAsync(image);
 
-            return image;
+            // Return the DTO for the newly uploaded image
+            return new ImageDTO
+            {
+                Id = image.Id,
+                Path = image.Path,
+                ImageType = image.ImageType,
+                Url = $"/images/{imageGuid}{extension}" // Example URL generation
+            };
         }
 
-        public async Task DeleteImageAsync(Guid id)
+        public async Task DeleteImageAsync(Guid imageId)
         {
-            var image = await _imageRepository.GetByIdAsync(id);
+            var image = await _imageRepository.GetByIdAsync(imageId);
+
             if (image != null)
             {
-                // Delete the file from the file system
+                // Delete the image file from the file system
                 if (File.Exists(image.Path))
                 {
                     File.Delete(image.Path);
                 }
 
                 // Delete the image record from the database
-                await _imageRepository.DeleteAsync(id);
+                await _imageRepository.DeleteAsync(imageId);
             }
         }
     }

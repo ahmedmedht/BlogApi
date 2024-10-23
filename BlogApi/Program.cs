@@ -7,9 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Business.Services;
 using Business.Services.Imp;
+using Business.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
+
 try
 {
     Log.Information("Starting Server.");
@@ -35,12 +40,15 @@ try
     builder.Services.AddSwaggerGen();
 
 
-
+    builder.Services.AddFluentValidationAutoValidation();
+    builder.Services.AddValidatorsFromAssemblyContaining<UserDTOValidator>();
 
     builder.Services.AddScoped<IImageRepository, ImageRepository>();
+    builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 
     builder.Services.AddScoped<IImageService, ImageService>();
+    builder.Services.AddTransient<IUserService, UserService>();
 
 
     var app = builder.Build();
