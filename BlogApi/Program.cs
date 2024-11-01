@@ -46,7 +46,9 @@ try
     builder.Services.AddScoped<IImageRepository, ImageRepository>();
     builder.Services.AddTransient<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IPostRepository, PostRepository>();
+    builder.Services.AddScoped<IPostSectionRepository, PostSectionRepository>();
 
+    builder.Services.AddScoped<IPostSectionService, PostSectionService>();
     builder.Services.AddScoped<IPostService, PostService>();
     builder.Services.AddScoped<IImageService, ImageService>();
     builder.Services.AddTransient<IUserService, UserService>();

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Dto
+namespace Models.Dto.ShowData
 {
-    public class UserDTO
+    public class UserDtoShow
     {
         public Guid Id { get; set; }
         public string UserName { get; set; }
@@ -15,6 +15,6 @@ namespace Models.Dto
 
         public string PasswordHash { get; set; }
         // The image file that will be uploaded when creating or updating the user
-        public IFormFile ImageFile { get; set; }
+        public Byte[] ImageUser { get; set; }
     }
 }

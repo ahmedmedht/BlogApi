@@ -22,6 +22,9 @@ namespace Business.Validators
 
             RuleFor(user => user.ImageFile)
                 .Must(file => file == null || file.Length > 0).WithMessage("Image file must not be empty if provided.");
+
+            RuleFor(user => user.PasswordHash)
+                .MinimumLength(6).WithMessage("Password must be longer than 8 characters ");
         }
     }
 }

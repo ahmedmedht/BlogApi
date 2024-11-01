@@ -1,4 +1,6 @@
 ﻿using Models.Dto;
+using Models.Dto.ShowData;
+using Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,10 @@ namespace Business.Services
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserDTO>> GetAllUsersAsync();
-        Task<UserDTO> GetUserByIdAsync(Guid id);
-        Task<UserDTO> CreateUserAsync(UserDTO userDto);
-        Task<UserDTO> UpdateUserAsync(UserDTO userDto);
+        Task<IEnumerable<UserDtoShow>> GetAllUsersAsync();
+        Task<UserDtoShow> GetUserByIdAsync(Guid id);
+        Task<UserModel> CreateUserAsync(UserDTO userDto);
+        Task<UserModel> UpdateUserAsync(UserDTO userDto);
         Task DeleteUserAsync(Guid id);
     }
 }

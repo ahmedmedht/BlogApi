@@ -9,6 +9,7 @@ namespace Models.Dto
     public class PostSectionDTO
     {
         public int Id { get; set; }
+        public Guid PostId { get; set; }
         public string SectionText { get; set; }
         public Guid? ImageId { get; set; }
         public string ImageUrl { get; set; }

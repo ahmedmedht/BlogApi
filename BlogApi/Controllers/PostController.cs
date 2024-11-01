@@ -10,46 +10,59 @@ namespace BlogApi.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly ILogger<PostController> _logger;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, ILogger<PostController> logger)
         {
             _postService = postService;
+            _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllPost")]
         public async Task<IActionResult> GetAllPosts()
         {
+            _logger.LogInformation("Fetching all posts.");
             var posts = await _postService.GetAllPostsAsync();
             return Ok(posts);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetPostById{id}")]
         public async Task<IActionResult> GetPostById(Guid id)
         {
+            _logger.LogInformation("Fetching post with ID: {PostId}", id);
             var post = await _postService.GetPostByIdAsync(id);
-            if (post == null) return NotFound();
+            if (post == null)
+            {
+                _logger.LogWarning("Post with ID: {PostId} not found.", id);
+                return NotFound();
+            }
             return Ok(post);
         }
 
-        [HttpPost]
+        [HttpPost("CreatePost")]
         public async Task<IActionResult> CreatePost([FromBody] PostDTO postDto)
         {
+            _logger.LogInformation("Creating a new post with title: {Title}", postDto.Title);
             await _postService.CreatePostAsync(postDto);
+            _logger.LogInformation("Post created successfully.");
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePost(Guid id, [FromBody] PostDTO postDto)
+        [HttpPut("UpdatePost{id}")]
+        public async Task<IActionResult> UpdatePost([FromBody] PostDTO postDto)
         {
-            postDto.Id = id;
+            _logger.LogInformation("Updating post with ID: {PostId}", postDto.Id);
             await _postService.UpdatePostAsync(postDto);
+            _logger.LogInformation("Post updated successfully.");
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeletePost{id}")]
         public async Task<IActionResult> DeletePost(Guid id)
         {
+            _logger.LogInformation("Deleting post with ID: {PostId}", id);
             await _postService.DeletePostAsync(id);
+            _logger.LogInformation("Post deleted successfully.");
             return NoContent();
         }
     }

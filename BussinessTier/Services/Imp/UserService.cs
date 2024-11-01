@@ -1,6 +1,7 @@
 ﻿using DataAccess.Repositories;
 using FluentValidation;
 using Models.Dto;
+using Models.Dto.ShowData;
 using Models.Model;
 using System;
 using System.Collections.Generic;
@@ -25,35 +26,36 @@ namespace Business.Services.Imp
             _validator = validator;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserDtoShow>> GetAllUsersAsync()
         {
             var users = await _userRepository.GetAllAsync();
-            return users.Select(user => new UserDTO
+            return (IEnumerable<UserDtoShow>)users.Select(async user => new UserDtoShow
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                ImageId = user.ImageId,
-                ImageUrl = user.UserImage != null ? $"/images/{user.ImageId}{Path.GetExtension(user.UserImage.ImageType)}" : null
+                PasswordHash = user.PasswordHash,
+                ImageUser = await _imageService.GetImageFile(user.ImageId)
             }).ToList();
         }
 
-        public async Task<UserDTO> GetUserByIdAsync(Guid id)
+        public async Task<UserDtoShow> GetUserByIdAsync(Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null) return null;
 
-            return new UserDTO
+            return new UserDtoShow
             {
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                ImageId = user.ImageId,
-                ImageUrl = user.UserImage != null ? $"/images/{user.ImageId}{Path.GetExtension(user.UserImage.ImageType)}" : null
+                PasswordHash = user.PasswordHash,
+                ImageUser = await _imageService.GetImageFile(user.ImageId)
+
             };
         }
 
-        public async Task<UserDTO> CreateUserAsync(UserDTO userDto)
+        public async Task<UserModel> CreateUserAsync(UserDTO userDto)
         {
             // Validate the DTO using FluentValidation
             var validationResult = await _validator.ValidateAsync(userDto);
@@ -73,17 +75,17 @@ namespace Business.Services.Imp
                 Id = Guid.NewGuid(),
                 UserName = userDto.UserName,
                 Email = userDto.Email,
+                PasswordHash = userDto.PasswordHash,
                 ImageId = imageDto?.Id
             };
 
             await _userRepository.AddAsync(user);
 
-            userDto.Id = user.Id;
-            userDto.ImageUrl = imageDto?.Url;
-            return userDto;
+            
+            return user;
         }
 
-        public async Task<UserDTO> UpdateUserAsync(UserDTO userDto)
+        public async Task<UserModel> UpdateUserAsync(UserDTO userDto)
         {
             // Validate the DTO using FluentValidation
             var validationResult = await _validator.ValidateAsync(userDto);
@@ -114,14 +116,7 @@ namespace Business.Services.Imp
 
             await _userRepository.UpdateAsync(user);
 
-            return new UserDTO
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                ImageId = user.ImageId,
-                ImageUrl = user.ImageId.HasValue ? $"/images/{user.ImageId}{Path.GetExtension(user.UserImage.ImageType)}" : null
-            };
+            return user;
         }
 
         public async Task DeleteUserAsync(Guid id)

@@ -78,5 +78,21 @@ namespace Business.Services.Imp
                 await _imageRepository.DeleteAsync(imageId);
             }
         }
+
+        public async Task<byte[]> GetImageFile(Guid? imageId)
+        {
+            var imageInfo= await GetImageByIdAsync(imageId ?? Guid.Empty);
+            if(imageInfo == null)
+            {
+                return [0];
+            }
+            var filePath = Path.Combine(_imageFolderPath, $"{imageInfo.Id + imageInfo.ImageType}");
+            if (!File.Exists(filePath))
+                return [0];
+
+            var imageBytes = await File.ReadAllBytesAsync(filePath);
+            return imageBytes;
+
+        }
     }
 }
