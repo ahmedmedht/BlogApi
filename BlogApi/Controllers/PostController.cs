@@ -40,7 +40,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost("CreatePost")]
-        public async Task<IActionResult> CreatePost([FromBody] PostDTO postDto)
+        public async Task<IActionResult> CreatePost([FromForm] PostDTO postDto)
         {
             _logger.LogInformation("Creating a new post with title: {Title}", postDto.Title);
             await _postService.CreatePostAsync(postDto);

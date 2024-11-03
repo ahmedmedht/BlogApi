@@ -18,12 +18,14 @@ namespace Models.Model
 
         public string PasswordHash { get; set; }
 
-        public Guid? ImageId { get; set; }
+        public Guid? UserImageId { get; set; }
         public ImageModel UserImage { get; set; }
 
-        public ICollection<PostModel> Posts { get; set; } // Posts authored by the user
+        public ICollection<PostModel> MyPosts { get; set; } // Posts authored by the user
         public ICollection<FavPostModel> FavPosts { get; set; } // Posts favorited by the user
-        public ICollection<CommentModel> CommentsAndReactions { get; set; }
+        public ICollection<CommentModel> Comments { get; set; }
+        public ICollection<ReactModel> Reacts { get; set; }
+
 
     }
 }

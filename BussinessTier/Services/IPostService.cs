@@ -1,4 +1,5 @@
 ﻿using Models.Dto;
+using Models.Dto.ShowData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Business.Services
 {
     public interface IPostService
     {
-        Task<IEnumerable<PostDTO>> GetAllPostsAsync();
-        Task<PostDTO> GetPostByIdAsync(Guid id);
+        Task<IEnumerable<PostShow>> GetAllPostsAsync();
+        Task<PostShow> GetPostByIdAsync(Guid id);
         Task CreatePostAsync(PostDTO postDto);
         Task UpdatePostAsync(PostDTO postDto);
         Task DeletePostAsync(Guid id);

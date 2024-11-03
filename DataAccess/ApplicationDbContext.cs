@@ -25,7 +25,24 @@ namespace DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Define relationships and constraints here (like many-to-many)
+            modelBuilder.Entity<FavPostModel>()
+                .HasOne(fp => fp.User)
+                .WithMany(u => u.FavPosts)
+                .HasForeignKey(fp => fp.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ReactModel>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.Reacts)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CommentModel>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

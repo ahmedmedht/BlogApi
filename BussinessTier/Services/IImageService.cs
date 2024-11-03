@@ -15,6 +15,6 @@ namespace Business.Services
         Task<ImageModel> GetImageByIdAsync(Guid id);
         Task<ImageDTO> UploadImageAsync(IFormFile file);
         Task DeleteImageAsync(Guid id);
-        Task<Byte[]> GetImageFile (Guid? imageId);
+        Task<byte[]> GetImageFile (Guid? imageId);
     }
 }

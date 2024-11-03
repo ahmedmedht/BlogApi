@@ -35,7 +35,7 @@ namespace Business.Services.Imp
                 UserName = user.UserName,
                 Email = user.Email,
                 PasswordHash = user.PasswordHash,
-                ImageUser = await _imageService.GetImageFile(user.ImageId)
+                ImageUser = await _imageService.GetImageFile(user.UserImageId)
             }).ToList();
         }
 
@@ -50,7 +50,7 @@ namespace Business.Services.Imp
                 UserName = user.UserName,
                 Email = user.Email,
                 PasswordHash = user.PasswordHash,
-                ImageUser = await _imageService.GetImageFile(user.ImageId)
+                ImageUser = await _imageService.GetImageFile(user.UserImageId)
 
             };
         }
@@ -76,7 +76,7 @@ namespace Business.Services.Imp
                 UserName = userDto.UserName,
                 Email = userDto.Email,
                 PasswordHash = userDto.PasswordHash,
-                ImageId = imageDto?.Id
+                UserImageId = imageDto?.Id
             };
 
             await _userRepository.AddAsync(user);
@@ -105,13 +105,13 @@ namespace Business.Services.Imp
 
             if (userDto.ImageFile != null)
             {
-                if (user.ImageId.HasValue)
+                if (user.UserImageId.HasValue)
                 {
-                    await _imageService.DeleteImageAsync(user.ImageId.Value);
+                    await _imageService.DeleteImageAsync(user.UserImageId.Value);
                 }
 
                 var imageDto = await _imageService.UploadImageAsync(userDto.ImageFile);
-                user.ImageId = imageDto.Id;
+                user.UserImageId = imageDto.Id;
             }
 
             await _userRepository.UpdateAsync(user);
@@ -127,9 +127,9 @@ namespace Business.Services.Imp
                 throw new Exception("User not found.");
             }
 
-            if (user.ImageId.HasValue)
+            if (user.UserImageId.HasValue)
             {
-                await _imageService.DeleteImageAsync(user.ImageId.Value);
+                await _imageService.DeleteImageAsync(user.UserImageId.Value);
             }
 
             await _userRepository.DeleteAsync(id);

@@ -1,5 +1,6 @@
 ﻿using DataAccess.Repositories;
 using Models.Dto;
+using Models.Dto.ShowData;
 using Models.Model;
 using System;
 using System.Collections.Generic;
@@ -12,32 +13,33 @@ namespace Business.Services.Imp
     public class PostService : IPostService
     {
         private readonly IPostRepository _postRepository;
+        private readonly IImageService _imageService;
 
-        public PostService(IPostRepository postRepository)
+        public PostService(IPostRepository postRepository, IImageService imageService)
         {
             _postRepository = postRepository;
+            _imageService = imageService;
         }
 
-        public async Task<IEnumerable<PostDTO>> GetAllPostsAsync()
+        public async Task<IEnumerable<PostShow>> GetAllPostsAsync()
         {
             var posts = await _postRepository.GetAllAsync();
-            return posts.Select(post => new PostDTO
+            return posts.Select(post => new PostShow
             {
                 Id = post.Id,
                 Title = post.Title,
-                Author = post.Author,
+                User = post.User,
                 CreatedAt = post.CreatedAt,
                 CategoryId = post.CategoryId,
-                CategoryName = post.Category.Name,
-                PostSections = post.PostSections.Select(section => new PostSectionDTO
+                PostSections = (ICollection<PostSectionShow>)post.PostSections.Select(async section => new PostSectionShow
                 {
                     Id = section.Id,
                     SectionText = section.SectionText,
                     ImageId = section.ImageId,
-                    ImageUrl = section.Image != null ? $"/images/{section.ImageId}.jpg" : null,
+                    ImageFile = await _imageService.GetImageFile(section.ImageId ?? Guid.Empty),
                     SectionOrder = section.SectionOrder
                 }).ToList(),
-                Comments = post.Comments.Select(comment => new CommentDTO
+                Comments = (ICollection<CommentModel>)post.Comments.Select(comment => new CommentDTO
                 {
                     Id = comment.Id,
                     Comment = comment.Comment,
@@ -45,7 +47,7 @@ namespace Business.Services.Imp
                     UserName = comment.User.UserName,
                     CreatedAt = comment.CreatedAt
                 }).ToList(),
-                Reacts = post.Reacts.Select(react => new ReactDTO
+                Reacts = (ICollection<ReactModel>)post.Reacts.Select(react => new ReactDTO
                 {
                     Id = react.Id,
                     UserId = react.UserId,
@@ -56,28 +58,27 @@ namespace Business.Services.Imp
             });
         }
 
-        public async Task<PostDTO> GetPostByIdAsync(Guid id)
+        public async Task<PostShow> GetPostByIdAsync(Guid id)
         {
             var post = await _postRepository.GetByIdAsync(id);
             if (post == null) return null;
 
-            return new PostDTO
+            return new PostShow
             {
                 Id = post.Id,
                 Title = post.Title,
-                Author = post.Author,
+                User = post.User,
                 CreatedAt = post.CreatedAt,
                 CategoryId = post.CategoryId,
-                CategoryName = post.Category.Name,
-                PostSections = post.PostSections.Select(section => new PostSectionDTO
+                PostSections = (ICollection<PostSectionShow>)post.PostSections.Select(async section => new PostSectionShow
                 {
                     Id = section.Id,
                     SectionText = section.SectionText,
                     ImageId = section.ImageId,
-                    ImageUrl = section.Image != null ? $"/images/{section.ImageId}.jpg" : null,
+                    ImageFile = await _imageService.GetImageFile(section.ImageId ?? Guid.Empty),
                     SectionOrder = section.SectionOrder
                 }).ToList(),
-                Comments = post.Comments.Select(comment => new CommentDTO
+                Comments = (ICollection<CommentModel>)post.Comments.Select(comment => new CommentDTO
                 {
                     Id = comment.Id,
                     Comment = comment.Comment,
@@ -85,7 +86,7 @@ namespace Business.Services.Imp
                     UserName = comment.User.UserName,
                     CreatedAt = comment.CreatedAt
                 }).ToList(),
-                Reacts = post.Reacts.Select(react => new ReactDTO
+                Reacts = (ICollection<ReactModel>)post.Reacts.Select(react => new ReactDTO
                 {
                     Id = react.Id,
                     UserId = react.UserId,
@@ -102,7 +103,7 @@ namespace Business.Services.Imp
             {
                 Id = Guid.NewGuid(),
                 Title = postDto.Title,
-                Author = postDto.Author,
+                UserId = postDto.UserId,
                 CreatedAt = DateTime.UtcNow,
                 CategoryId = postDto.CategoryId,
                 PostSections = postDto.PostSections.Select(section => new PostSectionModel
@@ -122,7 +123,7 @@ namespace Business.Services.Imp
             if (post == null) return;
 
             post.Title = postDto.Title;
-            post.Author = postDto.Author;
+            post.UserId = postDto.UserId;
             post.CategoryId = postDto.CategoryId;
             post.PostSections = postDto.PostSections.Select(section => new PostSectionModel
             {

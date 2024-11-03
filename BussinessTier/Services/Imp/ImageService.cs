@@ -36,6 +36,10 @@ namespace Business.Services.Imp
             var extension = Path.GetExtension(file.FileName);
             var filePath = Path.Combine(_imageFolderPath, $"{imageGuid}{extension}");
 
+            if (!Directory.Exists(_imageFolderPath))
+            {
+                Directory.CreateDirectory(_imageFolderPath);
+            }
             // Save the image to the file system
             using (var stream = new FileStream(filePath, FileMode.Create))
             {

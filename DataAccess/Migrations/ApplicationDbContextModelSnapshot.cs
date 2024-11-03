@@ -119,10 +119,6 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -131,17 +127,16 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserModelId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -230,14 +225,11 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ImageId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserImageId")
+                    b.Property<Guid?>("UserImageId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserName")
@@ -276,9 +268,9 @@ namespace DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Models.Model.UserModel", "User")
-                        .WithMany("CommentsAndReactions")
+                        .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -297,7 +289,7 @@ namespace DataAccess.Migrations
                     b.HasOne("Models.Model.UserModel", "User")
                         .WithMany("FavPosts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -313,11 +305,15 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Models.Model.UserModel", null)
-                        .WithMany("Posts")
-                        .HasForeignKey("UserModelId");
+                    b.HasOne("Models.Model.UserModel", "User")
+                        .WithMany("MyPosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Models.Model.PostSectionModel", b =>
@@ -346,9 +342,9 @@ namespace DataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("Models.Model.UserModel", "User")
-                        .WithMany()
+                        .WithMany("Reacts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Post");
@@ -360,9 +356,7 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("Models.Model.ImageModel", "UserImage")
                         .WithMany()
-                        .HasForeignKey("UserImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserImageId");
 
                     b.Navigation("UserImage");
                 });
@@ -398,11 +392,13 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Models.Model.UserModel", b =>
                 {
-                    b.Navigation("CommentsAndReactions");
+                    b.Navigation("Comments");
 
                     b.Navigation("FavPosts");
 
-                    b.Navigation("Posts");
+                    b.Navigation("MyPosts");
+
+                    b.Navigation("Reacts");
                 });
 #pragma warning restore 612, 618
         }
