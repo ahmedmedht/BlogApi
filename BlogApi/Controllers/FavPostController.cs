@@ -21,7 +21,7 @@ namespace BlogApi.Controllers
             _logger = logger;
         }
 
-        [HttpPost("Add")]
+        [HttpPost("AddPostToFav")]
         public async Task<IActionResult> AddFavorite([FromBody] FavDto dto)
         {
             try
@@ -37,18 +37,18 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("Post/{postId}")]
-        public async Task<IActionResult> GetFavoritesByPost(Guid postId)
+        [HttpGet("GetFavByUserId")]
+        public async Task<IActionResult> GetFavoritesByUserId(Guid userId)
         {
             try
             {
-                var favorites = await _favPostService.GetFavoritesByPostIdAsync(postId);
-                _logger.LogInformation("Retrieved favorites for Post ID {PostId}.", postId);
+                var favorites = await _favPostService.GetFavoritesByUserIdAsync(userId);
+                _logger.LogInformation("Retrieved favorites for User ID {UserId}.", userId);
                 return Ok(favorites);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving favorites for Post ID {PostId}.", postId);
+                _logger.LogError(ex, "Error retrieving favorites for User ID {UserId}.", userId);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving favorites.");
             }
         }

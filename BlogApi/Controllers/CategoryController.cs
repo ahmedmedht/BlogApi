@@ -22,7 +22,7 @@ namespace BlogApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllCategory")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -38,7 +38,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetCategoryById")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -59,7 +59,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddNewCategory")]
         public async Task<IActionResult> Add(string categoryName)
         {
             try
@@ -75,7 +75,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateCategory")]
         public async Task<IActionResult> Update([FromForm] CategoryDTO dto)
         {
             try
@@ -91,7 +91,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteCategoryById")]
         public async Task<IActionResult> Delete(int id)
         {
             try

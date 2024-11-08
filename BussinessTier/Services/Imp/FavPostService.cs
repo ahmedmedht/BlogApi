@@ -27,8 +27,8 @@ namespace Business.Services.Imp
             };
             await _favPostRepository.AddFavoriteAsync(favorite);
         }
-        public async Task<IEnumerable<FavPostModel>> GetFavoritesByPostIdAsync(Guid postId) =>
-            await _favPostRepository.GetFavoritesByPostIdAsync(postId);
+        public async Task<IEnumerable<FavPostModel>> GetFavoritesByUserIdAsync(Guid userId) =>
+            await _favPostRepository.GetFavoritesByUserIdAsync(userId);
 
         public async Task<FavPostModel> GetFavoriteByIdAsync(int favoriteId) =>
             await _favPostRepository.GetFavoriteByIdAsync(favoriteId);

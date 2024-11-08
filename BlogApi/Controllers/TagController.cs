@@ -22,7 +22,7 @@ namespace BlogApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllTags")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -38,7 +38,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetTagById")]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -59,7 +59,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddNewTag")]
         public async Task<IActionResult> Add(string tagName)
         {
             try
@@ -75,7 +75,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("UpdateTag")]
         public async Task<IActionResult> Update([FromBody] TagDTO dto)
         {
             try
@@ -91,7 +91,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteTagById")]
         public async Task<IActionResult> Delete(int id)
         {
             try

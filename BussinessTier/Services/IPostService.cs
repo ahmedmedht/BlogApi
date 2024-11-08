@@ -1,5 +1,6 @@
 ﻿using Models.Dto;
 using Models.Dto.ShowData;
+using Models.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Business.Services
         Task<IEnumerable<PostShow>> GetAllPostsAsync();
         Task<PostShow> GetPostByIdAsync(Guid id);
         Task CreatePostAsync(PostDTO postDto);
-        Task UpdatePostAsync(PostDTO postDto);
+        Task UpdatePostAsync(PostModel post);
         Task DeletePostAsync(Guid id);
     }
 }

@@ -106,32 +106,20 @@ namespace Business.Services.Imp
                 UserId = postDto.UserId,
                 CreatedAt = DateTime.UtcNow,
                 CategoryId = postDto.CategoryId,
-                PostSections = postDto.PostSections.Select(section => new PostSectionModel
-                {
-                    SectionText = section.SectionText,
-                    SectionOrder = section.SectionOrder,
-                    ImageId = section.ImageId
-                }).ToList()
+                
             };
 
             await _postRepository.AddAsync(post);
         }
 
-        public async Task UpdatePostAsync(PostDTO postDto)
+        public async Task UpdatePostAsync(PostModel post)
         {
-            var post = await _postRepository.GetByIdAsync(postDto.Id);
-            if (post == null) return;
+            var postold = await _postRepository.GetByIdAsync(post.Id);
+            if (postold == null) return;
 
-            post.Title = postDto.Title;
-            post.UserId = postDto.UserId;
-            post.CategoryId = postDto.CategoryId;
-            post.PostSections = postDto.PostSections.Select(section => new PostSectionModel
-            {
-                Id = section.Id,
-                SectionText = section.SectionText,
-                SectionOrder = section.SectionOrder,
-                ImageId = section.ImageId
-            }).ToList();
+            postold.Title = post.Title;
+            postold.UserId = post.UserId;
+            postold.CategoryId = post.CategoryId;
 
             await _postRepository.UpdateAsync(post);
         }

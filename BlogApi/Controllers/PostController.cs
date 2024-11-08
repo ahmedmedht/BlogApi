@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Dto;
+using Models.Model;
 
 namespace BlogApi.Controllers
 {
@@ -49,10 +50,10 @@ namespace BlogApi.Controllers
         }
 
         [HttpPut("UpdatePost{id}")]
-        public async Task<IActionResult> UpdatePost([FromBody] PostDTO postDto)
+        public async Task<IActionResult> UpdatePost([FromForm] PostModel post)
         {
-            _logger.LogInformation("Updating post with ID: {PostId}", postDto.Id);
-            await _postService.UpdatePostAsync(postDto);
+            _logger.LogInformation("Updating post with ID: {PostId}", post.Id);
+            await _postService.UpdatePostAsync(post);
             _logger.LogInformation("Post updated successfully.");
             return Ok();
         }

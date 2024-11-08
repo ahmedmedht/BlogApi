@@ -25,7 +25,7 @@ namespace Business.Services.Imp
                 UserId = dto.UserId,
                 PostId = dto.PostId,
                 Comment = dto.Comment,
-                CreatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow
             };
             await _commentRepository.AddCommentAsync(comment);
         }

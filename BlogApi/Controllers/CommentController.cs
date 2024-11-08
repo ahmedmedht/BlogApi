@@ -22,7 +22,7 @@ namespace BlogApi.Controllers
             _logger = logger;
         }
 
-        [HttpPost("Add")]
+        [HttpPost("AddNewComment")]
         public async Task<IActionResult> AddComment([FromBody] CommentDTO dto)
         {
             try
@@ -38,7 +38,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("Post/{postId}")]
+        [HttpGet("GetCommentsByPostId")]
         public async Task<IActionResult> GetCommentsByPost(Guid postId)
         {
             try
@@ -54,7 +54,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("{commentId}")]
+        [HttpGet("GetCommetById")]
         public async Task<IActionResult> GetCommentById(int commentId)
         {
             try
@@ -75,7 +75,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpPut("{commentId}")]
+        [HttpPut("UpdateComment")]
         public async Task<IActionResult> UpdateComment([FromBody] CommentModel comment)
         {
             try
@@ -91,7 +91,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpDelete("{commentId}")]
+        [HttpDelete("DeleteCommentById")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {
             try

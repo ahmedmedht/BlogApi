@@ -20,7 +20,7 @@ namespace BlogApi.Controllers
             _logger = logger;
         }
 
-        [HttpPost("Add")]
+        [HttpPost("AddReaction")]
         public async Task<IActionResult> AddReaction([FromBody] ReactDTO dto)
         {
             try
@@ -37,7 +37,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("Post/{postId}")]
+        [HttpGet("GetReactionsByPostId")]
         public async Task<IActionResult> GetReactionsByPost(Guid postId)
         {
             try
@@ -53,7 +53,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpGet("{reactionId}")]
+        [HttpGet("GetReactionById")]
         public async Task<IActionResult> GetReactionById(int reactionId)
         {
             try
@@ -69,7 +69,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpPut("{reactionId}")]
+        [HttpPut("UpdateReaction")]
         public async Task<IActionResult> UpdateReaction([FromBody] ReactModel reaction)
         {
             try
@@ -85,7 +85,7 @@ namespace BlogApi.Controllers
             }
         }
 
-        [HttpDelete("{reactionId}")]
+        [HttpDelete("DeleteReaction")]
         public async Task<IActionResult> DeleteReaction(int reactionId)
         {
             try

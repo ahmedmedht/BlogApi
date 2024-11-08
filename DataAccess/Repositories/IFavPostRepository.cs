@@ -10,7 +10,7 @@ namespace DataAccess.Repositories
     public interface IFavPostRepository
     {
         Task AddFavoriteAsync(FavPostModel favorite);
-        Task<IEnumerable<FavPostModel>> GetFavoritesByPostIdAsync(Guid postId);
+        Task<IEnumerable<FavPostModel>> GetFavoritesByUserIdAsync(Guid userId);
         Task<FavPostModel> GetFavoriteByIdAsync(int favoriteId);
         Task DeleteFavoriteAsync(int favoriteId);
     }

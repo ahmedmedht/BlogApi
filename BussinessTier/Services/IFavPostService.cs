@@ -11,7 +11,7 @@ namespace Business.Services
     public interface IFavPostService
     {
         Task AddFavoriteAsync(FavDto dto);
-        Task<IEnumerable<FavPostModel>> GetFavoritesByPostIdAsync(Guid postId);
+        Task<IEnumerable<FavPostModel>> GetFavoritesByUserIdAsync(Guid userID);
         Task<FavPostModel> GetFavoriteByIdAsync(int favoriteId);
         Task DeleteFavoriteAsync(int favoriteId);
     }

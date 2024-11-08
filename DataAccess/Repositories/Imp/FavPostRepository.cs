@@ -23,8 +23,8 @@ namespace DataAccess.Repositories.Imp
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<FavPostModel>> GetFavoritesByPostIdAsync(Guid postId) =>
-            await _context.FavPosts.Where(f => f.PostId == postId).ToListAsync();
+        public async Task<IEnumerable<FavPostModel>> GetFavoritesByUserIdAsync(Guid userId) =>
+            await _context.FavPosts.Where(f => f.UserId == userId).ToListAsync();
 
         public async Task<FavPostModel> GetFavoriteByIdAsync(int favoriteId) =>
             await _context.FavPosts.FindAsync(favoriteId);
