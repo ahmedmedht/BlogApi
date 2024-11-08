@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Dto
+namespace Models.Dto.ShowData
 {
-    public class ReactDTO
+    public class ReactDtoShow
     {
+        public int Id { get; set; }
         public Guid UserId { get; set; }
-        public Guid PostId { get; set; }
+        public string UserName { get; set; }
         public bool? Liked { get; set; }
     }
 }

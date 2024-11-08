@@ -47,11 +47,24 @@ try
     builder.Services.AddTransient<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IPostRepository, PostRepository>();
     builder.Services.AddScoped<IPostSectionRepository, PostSectionRepository>();
+    builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+    builder.Services.AddScoped<ITagRepository, TagRepository>();
+    builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+    builder.Services.AddScoped<IReactRepository, ReactRepository>();
+    builder.Services.AddScoped<IFavPostRepository, FavPostRepository>();
+
 
     builder.Services.AddScoped<IPostSectionService, PostSectionService>();
     builder.Services.AddScoped<IPostService, PostService>();
     builder.Services.AddScoped<IImageService, ImageService>();
     builder.Services.AddTransient<IUserService, UserService>();
+    builder.Services.AddScoped<ITagService, TagService>();
+    builder.Services.AddScoped<ICategoryService, CategoryService>();
+    builder.Services.AddScoped<ICommentService, CommentService>();
+    builder.Services.AddScoped<IReactService, ReactService>();
+    builder.Services.AddScoped<IFavPostService, FavPostService>();
+
+
 
 
     var app = builder.Build();

@@ -39,7 +39,7 @@ namespace Business.Services.Imp
                     ImageFile = await _imageService.GetImageFile(section.ImageId ?? Guid.Empty),
                     SectionOrder = section.SectionOrder
                 }).ToList(),
-                Comments = (ICollection<CommentModel>)post.Comments.Select(comment => new CommentDTO
+                Comments = (ICollection<CommentModel>)post.Comments.Select(comment => new CommentDtoShow
                 {
                     Id = comment.Id,
                     Comment = comment.Comment,
@@ -47,7 +47,7 @@ namespace Business.Services.Imp
                     UserName = comment.User.UserName,
                     CreatedAt = comment.CreatedAt
                 }).ToList(),
-                Reacts = (ICollection<ReactModel>)post.Reacts.Select(react => new ReactDTO
+                Reacts = (ICollection<ReactModel>)post.Reacts.Select(react => new ReactDtoShow
                 {
                     Id = react.Id,
                     UserId = react.UserId,
@@ -78,7 +78,7 @@ namespace Business.Services.Imp
                     ImageFile = await _imageService.GetImageFile(section.ImageId ?? Guid.Empty),
                     SectionOrder = section.SectionOrder
                 }).ToList(),
-                Comments = (ICollection<CommentModel>)post.Comments.Select(comment => new CommentDTO
+                Comments = (ICollection<CommentModel>)post.Comments.Select(comment => new CommentDtoShow
                 {
                     Id = comment.Id,
                     Comment = comment.Comment,
@@ -86,7 +86,7 @@ namespace Business.Services.Imp
                     UserName = comment.User.UserName,
                     CreatedAt = comment.CreatedAt
                 }).ToList(),
-                Reacts = (ICollection<ReactModel>)post.Reacts.Select(react => new ReactDTO
+                Reacts = (ICollection<ReactModel>)post.Reacts.Select(react => new ReactDtoShow
                 {
                     Id = react.Id,
                     UserId = react.UserId,
